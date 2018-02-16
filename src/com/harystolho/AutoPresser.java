@@ -6,7 +6,7 @@ public class AutoPresser {
 		
 		AutoPresserGUI gui = new AutoPresserGUI();
 		
-		gui.loadGUI(args);
+		gui.startGUI(args);
 		
 	}
 

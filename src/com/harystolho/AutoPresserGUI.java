@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -43,6 +45,7 @@ public class AutoPresserGUI extends Application {
 		addTableRow(k2);
 		//
 
+		window.setResizable(false);
 		window.setScene(scene);
 		window.show();
 	}
@@ -85,18 +88,47 @@ public class AutoPresserGUI extends Application {
 		keyTable.setItems(keyList);
 
 		// Add Key Button
-
 		addKeyButton = new Button("New Key");
 		addKeyButton.setTranslateY(7);
-
 		//
+		
 		leftSideContents.getChildren().addAll(keyTable, addKeyButton);
 		leftSideContents.setAlignment(Pos.TOP_RIGHT);
 		contents.getChildren().add(leftSideContents);
 	}
 
 	private void loadRightSide(HBox contents) {
+		VBox rightSideContents = new VBox();
+		rightSideContents.setTranslateX(50);
 
+		//
+		GridPane topGridPane = new GridPane();
+		topGridPane
+				.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 5px;");
+		// topGridPane.setGridLinesVisible(true);
+		topGridPane.setHgap(20);
+		topGridPane.setVgap(20);
+
+		TextField keyName = new TextField("");
+		keyName.setMaxWidth(150);
+		keyName.setEditable(false);
+		Button keyDelete = new Button("X");
+		keyDelete.setTranslateX(30);
+		TextField keyDuration = new TextField();
+		keyDuration.setPrefWidth(50);
+		Button keySave = new Button("Save key");
+
+		GridPane.setColumnSpan(keyName, GridPane.REMAINING);
+
+		topGridPane.add(keyName, 0, 0);
+		topGridPane.add(keyDelete, 21, 0);
+		topGridPane.add(keyDuration, 0, 1);
+		topGridPane.add(keySave, 21, 5);
+		//
+
+		rightSideContents.getChildren().add(topGridPane);
+
+		contents.getChildren().add(rightSideContents);
 	}
 
 	public void addTableRow(KeyEvent keyEvent) {

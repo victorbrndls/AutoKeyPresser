@@ -30,6 +30,10 @@ public class KeyEvent {
 		return dur;
 	}
 
+	public int getKeyCode() {
+		return this.keyCode;
+	}
+
 	public boolean isKeyDown() {
 		return this.isDown;
 	}
@@ -42,6 +46,11 @@ public class KeyEvent {
 	public KeyEvent clone() {
 		KeyEvent key = new KeyEvent(this.keyCode, this.duration);
 		return key;
+	}
+
+	@Override
+	public int hashCode() {
+		return 17 + this.keyCode * this.duration;
 	}
 
 	public static String getKeyName(int keyCode) {

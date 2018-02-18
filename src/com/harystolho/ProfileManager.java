@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -33,9 +36,9 @@ public class ProfileManager {
 		File folder = createFolder();
 		for (KeyProfile profile : profiles) {
 			// check if characters are valid
-			File file = new File(folder.getPath() + "/" + profile.getName() + ".key");
+			File file = new File(folder.getPath() + "/" + profile.getName() + ".atk");
 			try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-				
+				oos.writeObject(generateJSON(profile));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -49,6 +52,25 @@ public class ProfileManager {
 			folder.mkdirs();
 		}
 		return folder;
+	}
+
+	private static String generateJSON(KeyProfile profile) {
+		JSONObject json = new JSONObject();
+		json.put("name", profile.getName());
+
+		JSONArray keys = new JSONArray();
+
+		for (KeyEvent key : profile.getItems()) {
+			JSONObject keyJSON = new JSONObject();
+			keyJSON.put("keyCode", key.getKeyCode());
+			keyJSON.put("duration", key.getKeyDuration());
+
+			keys.put(keyJSON);
+		}
+
+		json.put("keys", keys);
+
+		return json.toString();
 	}
 
 }

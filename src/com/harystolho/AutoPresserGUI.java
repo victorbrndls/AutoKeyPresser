@@ -230,12 +230,14 @@ public class AutoPresserGUI extends Application {
 						Platform.runLater(() -> {
 							profileList.add(newProfile);
 						});
+						profileName.setText("");
 					}
 				} else {
 					KeyProfile newProfile = new KeyProfile(profileName.getText().trim());
 					Platform.runLater(() -> {
 						profileList.add(newProfile);
 					});
+					profileName.setText("");
 				}
 			}
 		});

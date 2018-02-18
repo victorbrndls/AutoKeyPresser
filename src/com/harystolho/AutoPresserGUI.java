@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -20,14 +21,27 @@ public class AutoPresserGUI extends Application {
 	public static final int WIDTH = 900;
 	public static final int HEIGHT = 600;
 
+	KeyEvent editingKey;
+
+	private TableView<KeyEvent> keyTable;
 	private TableColumn<KeyEvent, String> timeColumn;
 	private TableColumn<KeyEvent, String> keyColumn;
 
 	private ObservableList<KeyEvent> keyList = FXCollections.observableArrayList();
+	private KeyProfile currentProfile;
 
 	Scene scene;
 
 	private Button addKeyButton;
+
+	private TextField keyName;
+	private TextField keyDuration;
+
+	private ChoiceBox<KeyProfile> profiles;
+	private TextField profileName;
+	private Button newProfileButton;
+	private Button loadProfileButton;
+	private Button saveProfileButton;
 
 	@Override
 	public void start(Stage window) throws Exception {
@@ -40,7 +54,6 @@ public class AutoPresserGUI extends Application {
 		//
 		KeyEvent k1 = new KeyEvent(15, 1);
 		KeyEvent k2 = new KeyEvent(16, 5551);
-		KeyEvent k3 = new KeyEvent(17, 1);
 		addTableRow(k1);
 		addTableRow(k2);
 		//
@@ -66,10 +79,13 @@ public class AutoPresserGUI extends Application {
 	private void loadLeftSide(HBox contents) {
 		VBox leftSideContents = new VBox();
 
-		TableView<KeyEvent> keyTable = new TableView<>();
+		keyTable = new TableView<>();
 		keyTable.setEditable(false);
 		keyTable.setPrefWidth(WIDTH * 0.305);
 		keyTable.setPrefHeight(HEIGHT * 0.8);
+
+		keyTable.getSelectionModel().selectedItemProperty()
+				.addListener((observable, oldValue, newValue) -> setKeyInfoOnGrid(newValue));
 
 		timeColumn = new TableColumn<>("Time");
 		keyColumn = new TableColumn<>("Key");
@@ -85,13 +101,11 @@ public class AutoPresserGUI extends Application {
 
 		keyTable.getColumns().addAll(timeColumn, keyColumn);
 
-		keyTable.setItems(keyList);
-
 		// Add Key Button
 		addKeyButton = new Button("New Key");
 		addKeyButton.setTranslateY(7);
 		//
-		
+
 		leftSideContents.getChildren().addAll(keyTable, addKeyButton);
 		leftSideContents.setAlignment(Pos.TOP_RIGHT);
 		contents.getChildren().add(leftSideContents);
@@ -109,24 +123,50 @@ public class AutoPresserGUI extends Application {
 		topGridPane.setHgap(20);
 		topGridPane.setVgap(20);
 
-		TextField keyName = new TextField("");
+		keyName = new TextField("");
 		keyName.setMaxWidth(150);
 		keyName.setEditable(false);
 		Button keyDelete = new Button("X");
 		keyDelete.setTranslateX(30);
-		TextField keyDuration = new TextField();
-		keyDuration.setPrefWidth(50);
+		keyDuration = new TextField();
+		keyDuration.setMaxWidth(70);
 		Button keySave = new Button("Save key");
 
 		GridPane.setColumnSpan(keyName, GridPane.REMAINING);
+		GridPane.setColumnSpan(keyDuration, GridPane.REMAINING);
 
 		topGridPane.add(keyName, 0, 0);
-		topGridPane.add(keyDelete, 21, 0);
+		topGridPane.add(keyDelete, 23, 0);
 		topGridPane.add(keyDuration, 0, 1);
-		topGridPane.add(keySave, 21, 5);
+		topGridPane.add(keySave, 23, 5);
 		//
-
 		rightSideContents.getChildren().add(topGridPane);
+
+		//
+		GridPane bottomGridPane = new GridPane();
+		bottomGridPane
+				.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 5px;");
+		// bottomGridPane.setGridLinesVisible(true);
+		bottomGridPane.setTranslateY(HEIGHT * 0.1);
+		bottomGridPane.setHgap(20);
+		bottomGridPane.setVgap(20);
+
+		profiles = new ChoiceBox<>();
+		profiles.setMinWidth(150);
+		profileName = new TextField();
+		newProfileButton = new Button("New Profile");
+		loadProfileButton = new Button("Load Profile");
+		saveProfileButton = new Button("Save Profile");
+
+		bottomGridPane.add(profiles, 0, 0);
+		bottomGridPane.add(profileName, 0, 1);
+		bottomGridPane.add(newProfileButton, 1, 1);
+		bottomGridPane.add(loadProfileButton, 15, 2);
+		bottomGridPane.add(saveProfileButton, 15, 3);
+
+		GridPane.setColumnSpan(newProfileButton, GridPane.REMAINING);
+		//
+		rightSideContents.getChildren().add(bottomGridPane);
 
 		contents.getChildren().add(rightSideContents);
 	}
@@ -135,10 +175,33 @@ public class AutoPresserGUI extends Application {
 		this.keyList.add(keyEvent);
 	}
 
+	private void setKeyInfoOnGrid(KeyEvent key) {
+		if (key != null) {
+			editingKey = key;
+			keyName.setText(key.getKeyName().get());
+			keyDuration.setText(key.getKeyDuration().get() + "ms");
+		} else {
+			keyName.setText("");
+			keyDuration.setText("");
+		}
+	}
+
 	private void loadEvents() {
+		// left
 		addKeyButton.setOnAction((e) -> {
 			AddKeyWindow.display(this);
 		});
+		//
+
+		// right
+
+		//
+		// top
+		//
+
+		// bottom
+
+		//
 	}
 
 }

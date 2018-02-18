@@ -63,6 +63,7 @@ public class AutoPresserGUI extends Application {
 		window.setResizable(false);
 		window.setScene(scene);
 		window.show();
+
 	}
 
 	public void startGUI(String[] args) {
@@ -201,7 +202,8 @@ public class AutoPresserGUI extends Application {
 	private void loadEvents() {
 		// left
 		addKeyButton.setOnAction((e) -> {
-			AddKeyWindow.display(this);
+			AddKeyWindow window = new AddKeyWindow();
+			window.display(this);
 		});
 		//
 

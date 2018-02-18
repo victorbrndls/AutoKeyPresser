@@ -1,9 +1,11 @@
 package com.harystolho;
 
+import java.io.Serializable;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class KeyProfile {
+public class KeyProfile implements Serializable {
 
 	private ObservableList<KeyEvent> keys;
 	private String name;

@@ -239,11 +239,11 @@ public class AutoPresserGUI extends Application {
 				}
 			}
 		});
-		
-		saveProfileButton.setOnAction((e)->{
-			
+
+		saveProfileButton.setOnAction((e) -> {
+			ProfileManager.saveProfiles(profileList);
 		});
-		
+
 	}
 
 }

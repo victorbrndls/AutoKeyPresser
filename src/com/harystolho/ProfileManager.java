@@ -35,7 +35,7 @@ public class ProfileManager {
 			// check if characters are valid
 			File file = new File(folder.getPath() + "/" + profile.getName() + ".key");
 			try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-				oos.writeObject(profile);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -43,7 +43,8 @@ public class ProfileManager {
 	}
 
 	private static File createFolder() {
-		File folder = new File("/profiles");
+		File folder = new File("profiles");
+		System.out.println(folder.getAbsolutePath());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}

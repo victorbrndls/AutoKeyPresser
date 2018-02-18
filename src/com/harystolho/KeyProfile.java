@@ -13,7 +13,7 @@ public class KeyProfile {
 		this.keys = FXCollections.observableArrayList();
 	}
 
-	public ObservableList<KeyEvent> getKeys() {
+	public ObservableList<KeyEvent> getItems() {
 		return this.keys;
 	}
 
@@ -23,5 +23,14 @@ public class KeyProfile {
 
 	public void removeKey(KeyEvent key) {
 		this.keys.remove(key);
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
 	}
 }

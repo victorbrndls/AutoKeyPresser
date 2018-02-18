@@ -1,12 +1,16 @@
 package com.harystolho;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,16 +25,16 @@ public class AutoPresserGUI extends Application {
 	public static final int WIDTH = 900;
 	public static final int HEIGHT = 600;
 
-	KeyEvent editingKey;
+	private KeyEvent editingKey;
 
 	private TableView<KeyEvent> keyTable;
 	private TableColumn<KeyEvent, String> timeColumn;
 	private TableColumn<KeyEvent, String> keyColumn;
 
-	private ObservableList<KeyEvent> keyList = FXCollections.observableArrayList();
+	private ObservableList<KeyProfile> profileList = FXCollections.observableArrayList();
 	private KeyProfile currentProfile;
 
-	Scene scene;
+	private Scene scene;
 
 	private Button addKeyButton;
 
@@ -51,12 +55,6 @@ public class AutoPresserGUI extends Application {
 
 		loadGUIItems();
 		loadEvents();
-		//
-		KeyEvent k1 = new KeyEvent(15, 1);
-		KeyEvent k2 = new KeyEvent(16, 5551);
-		addTableRow(k1);
-		addTableRow(k2);
-		//
 
 		window.setResizable(false);
 		window.setScene(scene);
@@ -152,7 +150,8 @@ public class AutoPresserGUI extends Application {
 		bottomGridPane.setVgap(20);
 
 		profiles = new ChoiceBox<>();
-		profiles.setMinWidth(150);
+		profiles.setMaxWidth(150);
+		profiles.setItems(profileList);
 		profileName = new TextField();
 		newProfileButton = new Button("New Profile");
 		loadProfileButton = new Button("Load Profile");
@@ -171,8 +170,13 @@ public class AutoPresserGUI extends Application {
 		contents.getChildren().add(rightSideContents);
 	}
 
-	public void addTableRow(KeyEvent keyEvent) {
-		this.keyList.add(keyEvent);
+	public void addTableRow(KeyEvent key) {
+		if (this.currentProfile == null) {
+			Alert alert = new Alert(AlertType.ERROR, "Please select a profile", ButtonType.OK);
+			alert.show();
+		} else {
+			this.currentProfile.addKey(key);
+		}
 	}
 
 	private void setKeyInfoOnGrid(KeyEvent key) {
@@ -186,6 +190,10 @@ public class AutoPresserGUI extends Application {
 		}
 	}
 
+	public void updateProfile() {
+		this.keyTable.setItems(currentProfile.getItems());
+	}
+
 	private void loadEvents() {
 		// left
 		addKeyButton.setOnAction((e) -> {
@@ -193,15 +201,49 @@ public class AutoPresserGUI extends Application {
 		});
 		//
 
-		// right
-
-		//
-		// top
+		// top right
 		//
 
-		// bottom
+		// bottom right
+		profiles.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+			this.currentProfile = profileList.get(newValue.intValue());
+			updateProfile();
+		});
 
-		//
+		newProfileButton.setOnAction((e) -> {
+			if (profileName.getText().trim().isEmpty()) {
+				profileName.setStyle("-fx-border-color: red; -fx-border-radius: 4px");
+			} else {
+				profileName.setStyle("");
+				if (profiles.getItems().size() != 0) {
+					boolean found = false;
+					for (KeyProfile profile : profileList) {
+						if (profileName.getText().toLowerCase().trim().equals(profile.getName().toLowerCase())) {
+							Alert alert = new Alert(AlertType.WARNING, "There is already a profile with this name.",
+									ButtonType.CLOSE);
+							alert.show();
+							found = true;
+						}
+					}
+					if (!found) {
+						KeyProfile newProfile = new KeyProfile(profileName.getText().trim());
+						Platform.runLater(() -> {
+							profileList.add(newProfile);
+						});
+					}
+				} else {
+					KeyProfile newProfile = new KeyProfile(profileName.getText().trim());
+					Platform.runLater(() -> {
+						profileList.add(newProfile);
+					});
+				}
+			}
+		});
+		
+		saveProfileButton.setOnAction((e)->{
+			
+		});
+		
 	}
 
 }

@@ -235,6 +235,7 @@ public class AutoPresserGUI extends Application {
 						KeyProfile newProfile = new KeyProfile(profileName.getText().trim());
 						Platform.runLater(() -> {
 							profileList.add(newProfile);
+							profiles.getSelectionModel().selectLast();
 						});
 						profileName.setText("");
 					}
@@ -242,6 +243,7 @@ public class AutoPresserGUI extends Application {
 					KeyProfile newProfile = new KeyProfile(profileName.getText().trim());
 					Platform.runLater(() -> {
 						profileList.add(newProfile);
+						profiles.getSelectionModel().selectLast();
 					});
 					profileName.setText("");
 				}

@@ -1,5 +1,7 @@
 package com.harystolho.key;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -24,6 +26,7 @@ public class AddKeyWindow {
 	private final static int HEIGHT = 300;
 
 	private Stage window;
+	private AutoPresserGUI gui;
 
 	private CheckBox hasDelay;
 	private TextField delayValue;
@@ -34,6 +37,7 @@ public class AddKeyWindow {
 	private boolean listening;
 
 	public void display(AutoPresserGUI gui) {
+		this.gui = gui;
 
 		Stage window = new Stage();
 		this.window = window;
@@ -113,7 +117,17 @@ public class AddKeyWindow {
 		});
 
 		saveButton.setOnAction((e) -> {
-
+			listening = false;
+			recordButton.setStyle("");
+			if (delayValue.getText().isEmpty()) {
+				delayValue.setStyle("-fx-border-color: red; -fx-border-radius: 4px");
+			} else {
+				delayValue.setStyle("");
+				com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(Integer.valueOf(pressedKey.getText()),
+						Integer.valueOf(delayValue.getText()));
+				gui.addTableRow(key);
+				window.close();
+			}
 		});
 
 	}
@@ -132,59 +146,60 @@ public class AddKeyWindow {
 	}
 
 	public static int getKeyCode(KeyCode code) {
+
 		switch (code) {
 		case A:
-			return 1;
+			return KeyEvent.VK_A;
 		case B:
-			return 1;
+			return KeyEvent.VK_B;
 		case C:
-			return 1;
+			return KeyEvent.VK_C;
 		case D:
-			return 1;
+			return KeyEvent.VK_D;
 		case E:
-			return 1;
+			return KeyEvent.VK_E;
 		case F:
-			return 1;
+			return KeyEvent.VK_F;
 		case G:
-			return 1;
+			return KeyEvent.VK_G;
 		case H:
-			return 1;
+			return KeyEvent.VK_H;
 		case I:
-			return 1;
+			return KeyEvent.VK_I;
 		case J:
-			return 1;
+			return KeyEvent.VK_J;
 		case K:
-			return 1;
+			return KeyEvent.VK_K;
 		case L:
-			return 1;
+			return KeyEvent.VK_L;
 		case M:
-			return 1;
+			return KeyEvent.VK_M;
 		case N:
-			return 1;
+			return KeyEvent.VK_N;
 		case O:
-			return 1;
+			return KeyEvent.VK_O;
 		case P:
-			return 1;
+			return KeyEvent.VK_P;
 		case Q:
-			return 1;
+			return KeyEvent.VK_Q;
 		case R:
-			return 1;
+			return KeyEvent.VK_R;
 		case S:
-			return 1;
+			return KeyEvent.VK_S;
 		case T:
-			return 1;
+			return KeyEvent.VK_T;
 		case U:
-			return 1;
+			return KeyEvent.VK_U;
 		case V:
-			return 1;
+			return KeyEvent.VK_V;
 		case W:
-			return 1;
+			return KeyEvent.VK_W;
 		case X:
-			return 1;
+			return KeyEvent.VK_X;
 		case Y:
-			return 1;
+			return KeyEvent.VK_Y;
 		case Z:
-			return 1;
+			return KeyEvent.VK_Z;
 		default:
 			return 0;
 		}

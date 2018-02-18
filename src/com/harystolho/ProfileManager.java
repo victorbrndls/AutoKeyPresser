@@ -66,7 +66,7 @@ public class ProfileManager {
 		for (KeyEvent key : profile.getItems()) {
 			JSONObject keyJSON = new JSONObject();
 			keyJSON.put("keyCode", key.getKeyCode());
-			keyJSON.put("duration", key.getKeyDuration());
+			keyJSON.put("duration", key.getKeyDuration().get());
 
 			keys.put(keyJSON);
 		}

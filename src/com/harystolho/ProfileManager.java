@@ -23,7 +23,16 @@ public class ProfileManager {
 
 		for (File file : createFolder().listFiles()) {
 			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-				KeyProfile profile = (KeyProfile) ois.readObject();
+				JSONObject json = new JSONObject((String) ois.readObject());
+				KeyProfile profile = new KeyProfile(json.get("name") + "");
+
+				JSONArray keys = new JSONArray(json.get("keys").toString());
+				keys.forEach((item) -> {
+					JSONObject key = new JSONObject(item.toString());
+					KeyEvent savedKey = new KeyEvent(key.getInt("keyCode"), key.getInt("duration"));
+					profile.addKey(savedKey);
+				});
+
 				list.add(profile);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -66,7 +75,7 @@ public class ProfileManager {
 		for (KeyEvent key : profile.getItems()) {
 			JSONObject keyJSON = new JSONObject();
 			keyJSON.put("keyCode", key.getKeyCode());
-			keyJSON.put("duration", key.getKeyDuration().get());
+			keyJSON.put("duration", Integer.valueOf(key.getKeyDuration().get()));
 
 			keys.put(keyJSON);
 		}

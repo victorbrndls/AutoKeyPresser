@@ -4,6 +4,9 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
+
+import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardUpLeftHandler;
 
 import com.harystolho.AutoPresserGUI;
 
@@ -107,9 +110,11 @@ public class AddKeyWindow {
 
 		recordButton.setOnAction((e) -> {
 			if (listening) {
+				recordButton.setText("Record");
 				listening = false;
 				recordButton.setStyle("");
 			} else {
+				recordButton.setText("Stop Recording");
 				listening = true;
 				recordButton.setStyle("-fx-border-color: red; -fx-border-radius: 4px");
 			}
@@ -123,86 +128,59 @@ public class AddKeyWindow {
 				delayValue.setStyle("-fx-border-color: red; -fx-border-radius: 4px");
 			} else {
 				delayValue.setStyle("");
-				com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(Integer.valueOf(pressedKey.getText()),
-						Integer.valueOf(delayValue.getText()));
+				com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(
+						getKeyCode(KeyCode.valueOf(pressedKey.getText())), Integer.valueOf(delayValue.getText()));
 				gui.addTableRow(key);
 				window.close();
 			}
 		});
-
 	}
 
 	private void keyHandler(Scene scene) {
 		scene.setOnKeyPressed((e) -> {
 			if (listening) {
-				pressedKey.setText(getKeyCode(e.getCode()) + "");
+				pressedKey.setText(com.harystolho.key.KeyEvent.getKeyName(getKeyCode(e.getCode())));
 			}
 		});
 		scene.setOnKeyReleased((e) -> {
 			if (listening) {
-				pressedKey.setText(getKeyCode(e.getCode()) + "");
+				pressedKey.setText(com.harystolho.key.KeyEvent.getKeyName(getKeyCode(e.getCode())));
 			}
 		});
 	}
 
 	public static int getKeyCode(KeyCode code) {
+		HashMap<KeyCode, Integer> codes = new HashMap<>();
 
-		switch (code) {
-		case A:
-			return KeyEvent.VK_A;
-		case B:
-			return KeyEvent.VK_B;
-		case C:
-			return KeyEvent.VK_C;
-		case D:
-			return KeyEvent.VK_D;
-		case E:
-			return KeyEvent.VK_E;
-		case F:
-			return KeyEvent.VK_F;
-		case G:
-			return KeyEvent.VK_G;
-		case H:
-			return KeyEvent.VK_H;
-		case I:
-			return KeyEvent.VK_I;
-		case J:
-			return KeyEvent.VK_J;
-		case K:
-			return KeyEvent.VK_K;
-		case L:
-			return KeyEvent.VK_L;
-		case M:
-			return KeyEvent.VK_M;
-		case N:
-			return KeyEvent.VK_N;
-		case O:
-			return KeyEvent.VK_O;
-		case P:
-			return KeyEvent.VK_P;
-		case Q:
-			return KeyEvent.VK_Q;
-		case R:
-			return KeyEvent.VK_R;
-		case S:
-			return KeyEvent.VK_S;
-		case T:
-			return KeyEvent.VK_T;
-		case U:
-			return KeyEvent.VK_U;
-		case V:
-			return KeyEvent.VK_V;
-		case W:
-			return KeyEvent.VK_W;
-		case X:
-			return KeyEvent.VK_X;
-		case Y:
-			return KeyEvent.VK_Y;
-		case Z:
-			return KeyEvent.VK_Z;
-		default:
-			return 0;
-		}
+		codes.put(KeyCode.A, KeyEvent.VK_A);
+		codes.put(KeyCode.B, KeyEvent.VK_B);
+		codes.put(KeyCode.C, KeyEvent.VK_C);
+		codes.put(KeyCode.D, KeyEvent.VK_D);
+		codes.put(KeyCode.E, KeyEvent.VK_E);
+		codes.put(KeyCode.F, KeyEvent.VK_F);
+		codes.put(KeyCode.G, KeyEvent.VK_G);
+		codes.put(KeyCode.H, KeyEvent.VK_H);
+		codes.put(KeyCode.I, KeyEvent.VK_I);
+		codes.put(KeyCode.J, KeyEvent.VK_J);
+		codes.put(KeyCode.K, KeyEvent.VK_K);
+		codes.put(KeyCode.L, KeyEvent.VK_L);
+		codes.put(KeyCode.M, KeyEvent.VK_M);
+		codes.put(KeyCode.N, KeyEvent.VK_N);
+		codes.put(KeyCode.O, KeyEvent.VK_O);
+		codes.put(KeyCode.P, KeyEvent.VK_P);
+		codes.put(KeyCode.Q, KeyEvent.VK_Q);
+		codes.put(KeyCode.R, KeyEvent.VK_R);
+		codes.put(KeyCode.S, KeyEvent.VK_S);
+		codes.put(KeyCode.T, KeyEvent.VK_T);
+		codes.put(KeyCode.U, KeyEvent.VK_U);
+		codes.put(KeyCode.V, KeyEvent.VK_V);
+		codes.put(KeyCode.W, KeyEvent.VK_W);
+		codes.put(KeyCode.X, KeyEvent.VK_X);
+		codes.put(KeyCode.Y, KeyEvent.VK_Y);
+		codes.put(KeyCode.Z, KeyEvent.VK_Z);
+
+		return codes.get(code);
+
 	}
 
 }

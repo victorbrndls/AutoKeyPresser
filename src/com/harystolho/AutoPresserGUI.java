@@ -44,6 +44,7 @@ public class AutoPresserGUI extends Application {
 
 	private TextField keyName;
 	private TextField keyDuration;
+	private Button keyDelete;
 
 	private ChoiceBox<KeyProfile> profiles;
 	private TextField profileName;
@@ -89,7 +90,7 @@ public class AutoPresserGUI extends Application {
 		keyTable.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> setKeyInfoOnGrid(newValue));
 
-		timeColumn = new TableColumn<>("Time");
+		timeColumn = new TableColumn<>("Time (ms)");
 		keyColumn = new TableColumn<>("Key");
 
 		keyColumn.setPrefWidth(WIDTH * 0.2);
@@ -128,7 +129,7 @@ public class AutoPresserGUI extends Application {
 		keyName = new TextField("");
 		keyName.setMaxWidth(150);
 		keyName.setEditable(false);
-		Button keyDelete = new Button("X");
+		keyDelete = new Button("X");
 		keyDelete.setTranslateX(30);
 		keyDuration = new TextField();
 		keyDuration.setMaxWidth(70);
@@ -158,8 +159,8 @@ public class AutoPresserGUI extends Application {
 		profiles.setItems(profileList);
 		profileName = new TextField();
 		newProfileButton = new Button("New Profile");
-		loadProfileButton = new Button("Load Profile");
-		saveProfileButton = new Button("Save Profile");
+		loadProfileButton = new Button("Load Profiles");
+		saveProfileButton = new Button("Save Profiles");
 
 		bottomGridPane.add(profiles, 0, 0);
 		bottomGridPane.add(profileName, 0, 1);
@@ -208,6 +209,10 @@ public class AutoPresserGUI extends Application {
 		//
 
 		// top right
+		keyDelete.setOnAction((e) -> {
+			this.currentProfile.removeKey(editingKey);
+		});
+
 		//
 
 		// bottom right
@@ -252,6 +257,12 @@ public class AutoPresserGUI extends Application {
 
 		saveProfileButton.setOnAction((e) -> {
 			ProfileManager.saveProfiles(profileList);
+		});
+
+		loadProfileButton.setOnAction((e) -> {
+			profileList.setAll(ProfileManager.loadProfiles());
+			profiles.getSelectionModel().selectFirst();
+			updateProfile();
 		});
 
 	}

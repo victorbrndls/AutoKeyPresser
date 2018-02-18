@@ -56,9 +56,32 @@ public class KeyEvent {
 	public static String getKeyName(int keyCode) {
 		HashMap<Integer, String> keyNames = new HashMap<>();
 
-		keyNames.put(15, "Enter");
-		keyNames.put(16, "Delete");
-		keyNames.put(17, "Esc");
+		keyNames.put(java.awt.event.KeyEvent.VK_A, "A");
+		keyNames.put(java.awt.event.KeyEvent.VK_B, "B");
+		keyNames.put(java.awt.event.KeyEvent.VK_C, "C");
+		keyNames.put(java.awt.event.KeyEvent.VK_D, "D");
+		keyNames.put(java.awt.event.KeyEvent.VK_E, "E");
+		keyNames.put(java.awt.event.KeyEvent.VK_F, "F");
+		keyNames.put(java.awt.event.KeyEvent.VK_G, "G");
+		keyNames.put(java.awt.event.KeyEvent.VK_H, "H");
+		keyNames.put(java.awt.event.KeyEvent.VK_I, "I");
+		keyNames.put(java.awt.event.KeyEvent.VK_J, "J");
+		keyNames.put(java.awt.event.KeyEvent.VK_K, "K");
+		keyNames.put(java.awt.event.KeyEvent.VK_L, "L");
+		keyNames.put(java.awt.event.KeyEvent.VK_M, "M");
+		keyNames.put(java.awt.event.KeyEvent.VK_N, "N");
+		keyNames.put(java.awt.event.KeyEvent.VK_O, "O");
+		keyNames.put(java.awt.event.KeyEvent.VK_P, "P");
+		keyNames.put(java.awt.event.KeyEvent.VK_Q, "Q");
+		keyNames.put(java.awt.event.KeyEvent.VK_R, "R");
+		keyNames.put(java.awt.event.KeyEvent.VK_S, "S");
+		keyNames.put(java.awt.event.KeyEvent.VK_T, "T");
+		keyNames.put(java.awt.event.KeyEvent.VK_U, "U");
+		keyNames.put(java.awt.event.KeyEvent.VK_V, "V");
+		keyNames.put(java.awt.event.KeyEvent.VK_W, "W");
+		keyNames.put(java.awt.event.KeyEvent.VK_X, "X");
+		keyNames.put(java.awt.event.KeyEvent.VK_Y, "Y");
+		keyNames.put(java.awt.event.KeyEvent.VK_Z, "Z");
 
 		return keyNames.get(keyCode);
 	}

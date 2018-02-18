@@ -1,0 +1,15 @@
+#content{
+	-fx-background-color: #038fd2;	
+}
+
+#rightSideContent{
+	-fx-background-color: white;
+	-fx-background-radius: 6.0px;
+}
+
+#table{
+	-fx-border-color: black;
+	-fx-border-radius: 6.0px;
+	-fx-border-width: 2px;
+	-fx-background-radius: 6.0px;
+}

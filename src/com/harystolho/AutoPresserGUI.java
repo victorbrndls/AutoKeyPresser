@@ -72,17 +72,20 @@ public class AutoPresserGUI extends Application {
 
 	private void loadGUIItems() {
 		HBox contents = new HBox();
+		contents.setId("content");
 		contents.setPadding(new Insets(10));
 		loadLeftSide(contents);
 		loadRightSide(contents);
 
 		scene = new Scene(contents);
+		scene.getStylesheets().add("main.css");
 	}
 
 	private void loadLeftSide(HBox contents) {
 		VBox leftSideContents = new VBox();
 
 		keyTable = new TableView<>();
+		keyTable.setId("table");
 		keyTable.setEditable(false);
 		keyTable.setPrefWidth(WIDTH * 0.305);
 		keyTable.setPrefHeight(HEIGHT * 0.8);
@@ -120,6 +123,7 @@ public class AutoPresserGUI extends Application {
 
 		//
 		GridPane topGridPane = new GridPane();
+		topGridPane.setId("rightSideContent");
 		topGridPane
 				.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 5px;");
 		// topGridPane.setGridLinesVisible(true);
@@ -147,6 +151,7 @@ public class AutoPresserGUI extends Application {
 
 		//
 		GridPane bottomGridPane = new GridPane();
+		bottomGridPane.setId("rightSideContent");
 		bottomGridPane
 				.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 5px;");
 		// bottomGridPane.setGridLinesVisible(true);

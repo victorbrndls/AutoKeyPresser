@@ -1,5 +1,9 @@
 package com.harystolho;
 
+import com.harystolho.key.AddKeyWindow;
+import com.harystolho.key.KeyEvent;
+import com.harystolho.key.KeyProfile;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

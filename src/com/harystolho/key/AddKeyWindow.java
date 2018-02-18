@@ -1,4 +1,6 @@
-package com.harystolho;
+package com.harystolho.key;
+
+import com.harystolho.AutoPresserGUI;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.harystolho.key.KeyEvent;
+import com.harystolho.key.KeyProfile;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

@@ -1,4 +1,4 @@
-package com.harystolho;
+package com.harystolho.key;
 
 import java.io.Serializable;
 

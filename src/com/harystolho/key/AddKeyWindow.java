@@ -1,5 +1,8 @@
 package com.harystolho.key;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import com.harystolho.AutoPresserGUI;
 
 import javafx.application.Platform;
@@ -10,15 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import lc.kra.system.keyboard.GlobalKeyboardHook;
-import lc.kra.system.keyboard.event.GlobalKeyEvent;
-import lc.kra.system.keyboard.event.GlobalKeyListener;
-import lc.kra.system.mouse.GlobalMouseHook;
-import lc.kra.system.mouse.event.GlobalMouseEvent;
-import lc.kra.system.mouse.event.GlobalMouseListener;
 
 public class AddKeyWindow {
 
@@ -49,8 +47,9 @@ public class AddKeyWindow {
 		contents.setPadding(new Insets(5));
 
 		//
-		hasDelay = new CheckBox("Record Delay?");
-		hasDelay.setSelected(true);
+		hasDelay = new CheckBox("Record Delay? (TODO)");
+		// hasDelay.setSelected(true)
+		hasDelay.setDisable(true);
 		//
 
 		//
@@ -61,7 +60,7 @@ public class AddKeyWindow {
 		Label delayLabel = new Label("Delay (ms)");
 		delayValue = new TextField();
 		delayValue.setTranslateX(5);
-		delayValue.setDisable(true);
+		// delayValue.setDisable(true);
 
 		delayBox.getChildren().addAll(delayLabel, delayValue);
 		//
@@ -86,6 +85,8 @@ public class AddKeyWindow {
 
 		Scene scene = new Scene(contents);
 
+		keyHandler(scene);
+
 		loadEvents();
 
 		window.setScene(scene);
@@ -94,92 +95,19 @@ public class AddKeyWindow {
 
 	private void loadEvents() {
 		hasDelay.setOnAction((e) -> {
-			if (hasDelay.isSelected()) {
-				delayValue.setDisable(true);
-			} else {
-				delayValue.setDisable(false);
-			}
+			/*
+			 * if (hasDelay.isSelected()) { delayValue.setDisable(true); } else {
+			 * delayValue.setDisable(false); }
+			 */
 		});
 
 		recordButton.setOnAction((e) -> {
-
-			Thread t = new Thread(() -> {
-				GlobalKeyboardHook keyboardHook = new GlobalKeyboardHook(true);
-				GlobalMouseHook mouseHook = new GlobalMouseHook(true);
-
-				keyboardHook.addKeyListener(new GlobalKeyListener() {
-
-					@Override
-					public void keyReleased(GlobalKeyEvent event) {
-						switch (event.getVirtualKeyCode()) {
-						case 16:
-							// isShift = false;
-							break;
-						default:
-							break;
-						}
-					}
-
-					@Override
-					public void keyPressed(GlobalKeyEvent event) {
-						switch (event.getVirtualKeyCode()) {
-						case 16:
-							// isShift = true;
-						}
-						Platform.runLater(() -> {
-							pressedKey.setText(event.getVirtualKeyCode() + "");
-						});
-					}
-				});
-
-				mouseHook.addMouseListener(new GlobalMouseListener() {
-
-					@Override
-					public void mouseWheel(GlobalMouseEvent arg0) {
-
-					}
-
-					@Override
-					public void mouseReleased(GlobalMouseEvent arg0) {
-
-					}
-
-					@Override
-					public void mousePressed(GlobalMouseEvent event) {
-						if (event.getButton() == 1) {
-							listening = false;
-						} else {
-							Platform.runLater(() -> {
-								pressedKey.setText(event.getButton() + "");
-							});
-						}
-
-					}
-
-					@Override
-					public void mouseMoved(GlobalMouseEvent arg0) {
-
-					}
-				});
-
-				try {
-					while (listening) {
-						Thread.sleep(128);
-					}
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				} finally {
-					keyboardHook.shutdownHook();
-					mouseHook.shutdownHook();
-				}
-			});
-
 			if (listening) {
 				listening = false;
-				t.interrupt();
+				recordButton.setStyle("");
 			} else {
 				listening = true;
-				t.start();
+				recordButton.setStyle("-fx-border-color: red; -fx-border-radius: 4px");
 			}
 
 		});
@@ -188,6 +116,78 @@ public class AddKeyWindow {
 
 		});
 
+	}
+
+	private void keyHandler(Scene scene) {
+		scene.setOnKeyPressed((e) -> {
+			if (listening) {
+				pressedKey.setText(getKeyCode(e.getCode()) + "");
+			}
+		});
+		scene.setOnKeyReleased((e) -> {
+			if (listening) {
+				pressedKey.setText(getKeyCode(e.getCode()) + "");
+			}
+		});
+	}
+
+	public static int getKeyCode(KeyCode code) {
+		switch (code) {
+		case A:
+			return 1;
+		case B:
+			return 1;
+		case C:
+			return 1;
+		case D:
+			return 1;
+		case E:
+			return 1;
+		case F:
+			return 1;
+		case G:
+			return 1;
+		case H:
+			return 1;
+		case I:
+			return 1;
+		case J:
+			return 1;
+		case K:
+			return 1;
+		case L:
+			return 1;
+		case M:
+			return 1;
+		case N:
+			return 1;
+		case O:
+			return 1;
+		case P:
+			return 1;
+		case Q:
+			return 1;
+		case R:
+			return 1;
+		case S:
+			return 1;
+		case T:
+			return 1;
+		case U:
+			return 1;
+		case V:
+			return 1;
+		case W:
+			return 1;
+		case X:
+			return 1;
+		case Y:
+			return 1;
+		case Z:
+			return 1;
+		default:
+			return 0;
+		}
 	}
 
 }

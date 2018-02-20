@@ -42,6 +42,10 @@ public class KeyEvent {
 		this.isDown = isDown;
 	}
 
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
 	@Override
 	public KeyEvent clone() {
 		KeyEvent key = new KeyEvent(this.keyCode, this.duration);

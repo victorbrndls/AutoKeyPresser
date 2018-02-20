@@ -16,9 +16,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,6 +47,7 @@ public class AutoPresserGUI extends Application {
 	private TextField keyName;
 	private TextField keyDuration;
 	private Button keyDelete;
+	private Button keySave;
 
 	private ChoiceBox<KeyProfile> profiles;
 	private TextField profileName;
@@ -94,6 +97,7 @@ public class AutoPresserGUI extends Application {
 				.addListener((observable, oldValue, newValue) -> setKeyInfoOnGrid(newValue));
 
 		timeColumn = new TableColumn<>("Time (ms)");
+		timeColumn.setId("timeColumn");
 		keyColumn = new TableColumn<>("Key");
 
 		keyColumn.setPrefWidth(WIDTH * 0.2);
@@ -113,7 +117,7 @@ public class AutoPresserGUI extends Application {
 		//
 
 		leftSideContents.getChildren().addAll(keyTable, addKeyButton);
-		leftSideContents.setAlignment(Pos.TOP_RIGHT);
+		leftSideContents.setAlignment(Pos.TOP_LEFT);
 		contents.getChildren().add(leftSideContents);
 	}
 
@@ -137,7 +141,7 @@ public class AutoPresserGUI extends Application {
 		keyDelete.setTranslateX(30);
 		keyDuration = new TextField();
 		keyDuration.setMaxWidth(70);
-		Button keySave = new Button("Save key");
+		keySave = new Button("Save key");
 
 		GridPane.setColumnSpan(keyName, GridPane.REMAINING);
 		GridPane.setColumnSpan(keyDuration, GridPane.REMAINING);
@@ -176,6 +180,47 @@ public class AutoPresserGUI extends Application {
 		GridPane.setColumnSpan(newProfileButton, GridPane.REMAINING);
 		//
 		rightSideContents.getChildren().add(bottomGridPane);
+
+		//
+		GridPane playGridPane = new GridPane();
+		playGridPane.setId("rightSideContent");
+		playGridPane
+				.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 5px;");
+		playGridPane.setTranslateY(HEIGHT * 0.13);
+		playGridPane.setVgap(5);
+		playGridPane.setHgap(10);
+
+		ToggleGroup radios = new ToggleGroup();
+
+		RadioButton playOnceRadio = new RadioButton("Play once");
+		RadioButton playXTimesRadio = new RadioButton("Play X times");
+		RadioButton playUltilStopRadio = new RadioButton("Play until 'Play' is pressed again");
+
+		playOnceRadio.setStyle("-fx-text-fill: white;");
+		playXTimesRadio.setStyle("-fx-text-fill: white;");
+		playUltilStopRadio.setStyle("-fx-text-fill: white;");
+
+		playOnceRadio.setToggleGroup(radios);
+		playOnceRadio.setSelected(true);
+		playXTimesRadio.setToggleGroup(radios);
+		playUltilStopRadio.setToggleGroup(radios);
+
+		TextField playXTimesField = new TextField();
+		playXTimesField.setPrefWidth(40);
+
+		Button playButton = new Button("Play");
+		playButton.setTranslateX(7);
+
+		playGridPane.add(playOnceRadio, 0, 0);
+		playGridPane.add(playXTimesRadio, 0, 2);
+		playGridPane.add(playXTimesField, 2, 2);
+		playGridPane.add(playUltilStopRadio, 0, 4);
+		playGridPane.add(playButton, 36, 4);
+
+		GridPane.setColumnSpan(playUltilStopRadio, GridPane.REMAINING);
+
+		//
+		rightSideContents.getChildren().add(playGridPane);
 
 		contents.getChildren().add(rightSideContents);
 	}
@@ -216,6 +261,15 @@ public class AutoPresserGUI extends Application {
 		// top right
 		keyDelete.setOnAction((e) -> {
 			this.currentProfile.removeKey(editingKey);
+		});
+
+		keySave.setOnAction((e) -> {
+			editingKey.setDuration(Integer.valueOf(keyDuration.getText().replaceAll("ms", "")));
+
+			int temp = Integer.valueOf(keyDuration.getText().replaceAll("ms", ""));
+
+			
+			
 		});
 
 		//
@@ -269,6 +323,8 @@ public class AutoPresserGUI extends Application {
 			profiles.getSelectionModel().selectFirst();
 			updateProfile();
 		});
+
+		// play box
 
 	}
 

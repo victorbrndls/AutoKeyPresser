@@ -1,15 +1,17 @@
 #content{
-	-fx-background-color: #038fd2;	
+	-fx-background-color: #00b4d6;	
 }
 
 #rightSideContent{
-	-fx-background-color: white;
+	-fx-background-color: #004855;
 	-fx-background-radius: 6.0px;
 }
 
 #table{
-	-fx-border-color: black;
+	-fx-border-color: #006378;
 	-fx-border-radius: 6.0px;
-	-fx-border-width: 2px;
+	-fx-border-width: 2.0px;
 	-fx-background-radius: 6.0px;
+	-fx-background-color: #004855;
+	-fx-background-color: #7fc4d0;
 }

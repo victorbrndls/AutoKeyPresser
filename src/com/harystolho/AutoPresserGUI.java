@@ -3,6 +3,7 @@ package com.harystolho;
 import com.harystolho.key.AddKeyWindow;
 import com.harystolho.key.KeyEvent;
 import com.harystolho.key.KeyProfile;
+import com.harystolho.key.RecordKeysWindow;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -44,6 +45,7 @@ public class AutoPresserGUI extends Application {
 	private Scene scene;
 
 	private Button addKeyButton;
+	private Button recordKeySequence;
 
 	private TextField keyName;
 	private TextField keyDuration;
@@ -121,12 +123,19 @@ public class AutoPresserGUI extends Application {
 
 		keyTable.getColumns().addAll(timeColumn, keyColumn);
 
-		// Add Key Button
+		// Left bottom
+		HBox recordBox = new HBox();
+		recordBox.setTranslateY(7);
+
 		addKeyButton = new Button("New Key/Mouse");
-		addKeyButton.setTranslateY(7);
+
+		recordKeySequence = new Button("Record Many Keys");
+		recordKeySequence.setTranslateX(60);
+
+		recordBox.getChildren().addAll(addKeyButton, recordKeySequence);
 		//
 
-		leftSideContents.getChildren().addAll(keyTable, addKeyButton);
+		leftSideContents.getChildren().addAll(keyTable, recordBox);
 		leftSideContents.setAlignment(Pos.TOP_LEFT);
 		contents.getChildren().add(leftSideContents);
 	}
@@ -265,8 +274,12 @@ public class AutoPresserGUI extends Application {
 		// left
 		addKeyButton.setOnAction((e) -> {
 			AddKeyWindow window = new AddKeyWindow();
-
 			window.display(this);
+		});
+
+		recordKeySequence.setOnAction((e) -> {
+			RecordKeysWindow window = new RecordKeysWindow();
+			window.display();
 		});
 
 		// top right

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import com.harystolho.key.KeyEvent;
 
-public class testJSON {
+public class TestClass {
 
 	public static void main(String[] args) throws AWTException {
 

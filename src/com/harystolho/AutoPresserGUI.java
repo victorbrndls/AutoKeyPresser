@@ -56,6 +56,15 @@ public class AutoPresserGUI extends Application {
 	private Button loadProfileButton;
 	private Button saveProfileButton;
 
+	private RadioButton playOnceRadio;
+	private RadioButton playXTimesRadio;
+	private RadioButton playUltilStopRadio;
+	private TextField playXTimesField;
+
+	private Button playButton;
+
+	private ToggleGroup radios;
+
 	@Override
 	public void start(Stage window) throws Exception {
 		window.setTitle("AutoPresser");
@@ -113,7 +122,7 @@ public class AutoPresserGUI extends Application {
 		keyTable.getColumns().addAll(timeColumn, keyColumn);
 
 		// Add Key Button
-		addKeyButton = new Button("New Key");
+		addKeyButton = new Button("New Key/Mouse");
 		addKeyButton.setTranslateY(7);
 		//
 
@@ -192,11 +201,11 @@ public class AutoPresserGUI extends Application {
 		playGridPane.setVgap(5);
 		playGridPane.setHgap(10);
 
-		ToggleGroup radios = new ToggleGroup();
+		radios = new ToggleGroup();
 
-		RadioButton playOnceRadio = new RadioButton("Play once");
-		RadioButton playXTimesRadio = new RadioButton("Play X times");
-		RadioButton playUltilStopRadio = new RadioButton("Play until 'Play' is pressed again");
+		playOnceRadio = new RadioButton("Play once");
+		playXTimesRadio = new RadioButton("Play X times");
+		playUltilStopRadio = new RadioButton("Play until 'Play' is pressed again");
 
 		playOnceRadio.setStyle("-fx-text-fill: white;");
 		playXTimesRadio.setStyle("-fx-text-fill: white;");
@@ -207,10 +216,11 @@ public class AutoPresserGUI extends Application {
 		playXTimesRadio.setToggleGroup(radios);
 		playUltilStopRadio.setToggleGroup(radios);
 
-		TextField playXTimesField = new TextField();
+		playXTimesField = new TextField();
 		playXTimesField.setPrefWidth(40);
+		playXTimesField.setDisable(true);
 
-		Button playButton = new Button("Play");
+		playButton = new Button("Play");
 		playButton.setTranslateX(7);
 
 		playGridPane.add(playOnceRadio, 0, 0);
@@ -326,7 +336,36 @@ public class AutoPresserGUI extends Application {
 		});
 
 		// play box
+		radios.selectedToggleProperty().addListener((observable, oldVale, newValue) -> {
+			if (newValue.equals(playOnceRadio)) {
+				playXTimesField.setDisable(true);
 
+			} else if (newValue.equals(playXTimesRadio)) {
+				playXTimesField.setDisable(false);
+			} else if (newValue.equals(playUltilStopRadio)) {
+				playXTimesField.setDisable(true);
+
+			}
+		});
+
+		playButton.setOnAction((e) -> {
+			PlayKeyProfile.playProfile(this, currentProfile);
+		});
+	}
+
+	public int getPlayMode() {
+		if (radios.getSelectedToggle().toString().contains("once")) {
+			return 1;
+		} else if (radios.getSelectedToggle().toString().contains("times")) {
+			try {
+				return Integer.valueOf(playXTimesField.getText());
+			} catch (Exception e) {
+				return 1;
+			}
+		} else if (radios.getSelectedToggle().toString().contains("again")) {
+			return 0;
+		}
+		return 1;
 	}
 
 }

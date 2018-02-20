@@ -1,16 +1,12 @@
 package com.harystolho.key;
 
-import java.awt.AWTException;
-import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.security.spec.ECGenParameterSpec;
+import java.util.EmptyStackException;
 import java.util.HashMap;
-
-import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardUpLeftHandler;
 
 import com.harystolho.AutoPresserGUI;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -128,9 +124,35 @@ public class AddKeyWindow {
 				delayValue.setStyle("-fx-border-color: red; -fx-border-radius: 4px");
 			} else {
 				delayValue.setStyle("");
-				com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(
-						getKeyCode(KeyCode.valueOf(pressedKey.getText())), Integer.valueOf(delayValue.getText()));
-				gui.addTableRow(key);
+				try {
+					com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(
+							getKeyCode(KeyCode.valueOf(pressedKey.getText().toUpperCase())),
+							Integer.valueOf(delayValue.getText()));
+					gui.addTableRow(key);
+				} catch (IllegalArgumentException exc) {
+					int buttonNum = 0;
+
+					System.out.println("test");
+
+					switch (pressedKey.getText()) {
+					case "Left Mouse":
+						buttonNum = 1024;
+						break;
+					case "Right Mouse":
+						buttonNum = 2048;
+						break;
+					case "Middle Mouse":
+						buttonNum = 4096;
+						break;
+					default:
+						break;
+					}
+
+					com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(buttonNum,
+							Integer.valueOf(delayValue.getText()));
+					gui.addTableRow(key);
+				}
+
 				window.close();
 			}
 		});
@@ -144,7 +166,24 @@ public class AddKeyWindow {
 		});
 		scene.setOnKeyReleased((e) -> {
 			if (listening) {
-				pressedKey.setText(com.harystolho.key.KeyEvent.getKeyName(getKeyCode(e.getCode())));
+				// pressedKey.setText(com.harystolho.key.KeyEvent.getKeyName(getKeyCode(e.getCode())));
+			}
+		});
+		scene.setOnMousePressed((e) -> {
+			if (listening) {
+				switch (e.getButton()) {
+				case PRIMARY:
+					pressedKey.setText("Left Mouse");
+					break;
+				case SECONDARY:
+					pressedKey.setText("Right Mouse");
+					break;
+				case MIDDLE:
+					pressedKey.setText("Middle Mouse");
+					break;
+				default:
+					break;
+				}
 			}
 		});
 	}

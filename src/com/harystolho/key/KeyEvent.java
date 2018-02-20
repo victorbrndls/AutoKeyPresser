@@ -30,6 +30,10 @@ public class KeyEvent {
 		return dur;
 	}
 
+	public int getKeyDurationInt() {
+		return this.duration;
+	}
+
 	public int getKeyCode() {
 		return this.keyCode;
 	}
@@ -60,32 +64,35 @@ public class KeyEvent {
 	public static String getKeyName(int keyCode) {
 		HashMap<Integer, String> keyNames = new HashMap<>();
 
-		keyNames.put(java.awt.event.KeyEvent.VK_A, "A");
-		keyNames.put(java.awt.event.KeyEvent.VK_B, "B");
-		keyNames.put(java.awt.event.KeyEvent.VK_C, "C");
-		keyNames.put(java.awt.event.KeyEvent.VK_D, "D");
-		keyNames.put(java.awt.event.KeyEvent.VK_E, "E");
-		keyNames.put(java.awt.event.KeyEvent.VK_F, "F");
-		keyNames.put(java.awt.event.KeyEvent.VK_G, "G");
-		keyNames.put(java.awt.event.KeyEvent.VK_H, "H");
-		keyNames.put(java.awt.event.KeyEvent.VK_I, "I");
-		keyNames.put(java.awt.event.KeyEvent.VK_J, "J");
-		keyNames.put(java.awt.event.KeyEvent.VK_K, "K");
-		keyNames.put(java.awt.event.KeyEvent.VK_L, "L");
-		keyNames.put(java.awt.event.KeyEvent.VK_M, "M");
-		keyNames.put(java.awt.event.KeyEvent.VK_N, "N");
-		keyNames.put(java.awt.event.KeyEvent.VK_O, "O");
-		keyNames.put(java.awt.event.KeyEvent.VK_P, "P");
-		keyNames.put(java.awt.event.KeyEvent.VK_Q, "Q");
-		keyNames.put(java.awt.event.KeyEvent.VK_R, "R");
-		keyNames.put(java.awt.event.KeyEvent.VK_S, "S");
-		keyNames.put(java.awt.event.KeyEvent.VK_T, "T");
-		keyNames.put(java.awt.event.KeyEvent.VK_U, "U");
-		keyNames.put(java.awt.event.KeyEvent.VK_V, "V");
-		keyNames.put(java.awt.event.KeyEvent.VK_W, "W");
-		keyNames.put(java.awt.event.KeyEvent.VK_X, "X");
-		keyNames.put(java.awt.event.KeyEvent.VK_Y, "Y");
-		keyNames.put(java.awt.event.KeyEvent.VK_Z, "Z");
+		keyNames.put(java.awt.event.KeyEvent.VK_A, "a");
+		keyNames.put(java.awt.event.KeyEvent.VK_B, "b");
+		keyNames.put(java.awt.event.KeyEvent.VK_C, "c");
+		keyNames.put(java.awt.event.KeyEvent.VK_D, "d");
+		keyNames.put(java.awt.event.KeyEvent.VK_E, "e");
+		keyNames.put(java.awt.event.KeyEvent.VK_F, "f");
+		keyNames.put(java.awt.event.KeyEvent.VK_G, "g");
+		keyNames.put(java.awt.event.KeyEvent.VK_H, "h");
+		keyNames.put(java.awt.event.KeyEvent.VK_I, "i");
+		keyNames.put(java.awt.event.KeyEvent.VK_J, "j");
+		keyNames.put(java.awt.event.KeyEvent.VK_K, "k");
+		keyNames.put(java.awt.event.KeyEvent.VK_L, "l");
+		keyNames.put(java.awt.event.KeyEvent.VK_M, "m");
+		keyNames.put(java.awt.event.KeyEvent.VK_N, "n");
+		keyNames.put(java.awt.event.KeyEvent.VK_O, "o");
+		keyNames.put(java.awt.event.KeyEvent.VK_P, "p");
+		keyNames.put(java.awt.event.KeyEvent.VK_Q, "q");
+		keyNames.put(java.awt.event.KeyEvent.VK_R, "r");
+		keyNames.put(java.awt.event.KeyEvent.VK_S, "s");
+		keyNames.put(java.awt.event.KeyEvent.VK_T, "t");
+		keyNames.put(java.awt.event.KeyEvent.VK_U, "u");
+		keyNames.put(java.awt.event.KeyEvent.VK_V, "v");
+		keyNames.put(java.awt.event.KeyEvent.VK_W, "w");
+		keyNames.put(java.awt.event.KeyEvent.VK_X, "x");
+		keyNames.put(java.awt.event.KeyEvent.VK_Y, "y");
+		keyNames.put(java.awt.event.KeyEvent.VK_Z, "z");
+		keyNames.put(1024, "Left Mouse Click");
+		keyNames.put(2048, "Right Mouse Click");
+		keyNames.put(4096, "Middle Mouse Click");
 
 		return keyNames.get(keyCode);
 	}

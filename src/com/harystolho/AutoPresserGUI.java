@@ -21,6 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -138,6 +139,7 @@ public class AutoPresserGUI extends Application {
 		keyName.setMaxWidth(150);
 		keyName.setEditable(false);
 		keyDelete = new Button("X");
+		keyDelete.setTooltip(new Tooltip("Delete key"));
 		keyDelete.setTranslateX(30);
 		keyDuration = new TextField();
 		keyDuration.setMaxWidth(70);
@@ -256,7 +258,6 @@ public class AutoPresserGUI extends Application {
 
 			window.display(this);
 		});
-		//
 
 		// top right
 		keyDelete.setOnAction((e) -> {
@@ -264,15 +265,15 @@ public class AutoPresserGUI extends Application {
 		});
 
 		keySave.setOnAction((e) -> {
-			editingKey.setDuration(Integer.valueOf(keyDuration.getText().replaceAll("ms", "")));
+			try {
+				editingKey.setDuration(Integer.valueOf(keyDuration.getText().replaceAll("ms", "")));
+				keyTable.refresh();
+			} catch (NumberFormatException exc) {
+				Alert alert = new Alert(AlertType.ERROR, "Invalid number  Eg: (15, 15ms)", ButtonType.CLOSE);
+				alert.show();
+			}
 
-			int temp = Integer.valueOf(keyDuration.getText().replaceAll("ms", ""));
-
-			
-			
 		});
-
-		//
 
 		// bottom right
 		profiles.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {

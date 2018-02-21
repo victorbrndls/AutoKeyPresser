@@ -57,7 +57,7 @@ public class ProfileManager {
 		}
 	}
 
-	private static File createFolder() {
+	public static File createFolder() {
 		File folder = new File("profiles");
 		System.out.println(folder.getAbsolutePath());
 		if (!folder.exists()) {

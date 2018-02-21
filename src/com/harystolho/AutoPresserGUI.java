@@ -1,5 +1,9 @@
 package com.harystolho;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import com.harystolho.key.AddKeyWindow;
 import com.harystolho.key.KeyEvent;
 import com.harystolho.key.KeyProfile;
@@ -9,6 +13,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -55,6 +60,7 @@ public class AutoPresserGUI extends Application {
 	private ChoiceBox<KeyProfile> profiles;
 	private TextField profileName;
 	private Button newProfileButton;
+	private Button deleteProfileButton;
 	private Button loadProfileButton;
 	private Button saveProfileButton;
 
@@ -188,16 +194,20 @@ public class AutoPresserGUI extends Application {
 		profiles.setItems(profileList);
 		profileName = new TextField();
 		newProfileButton = new Button("New Profile");
+		deleteProfileButton = new Button("Delete Profile");
+		deleteProfileButton.setTranslateY(33);
 		loadProfileButton = new Button("Load Profiles");
 		saveProfileButton = new Button("Save Profiles");
 
 		bottomGridPane.add(profiles, 0, 0);
 		bottomGridPane.add(profileName, 0, 1);
+		bottomGridPane.add(deleteProfileButton, 1, 1);
 		bottomGridPane.add(newProfileButton, 1, 1);
 		bottomGridPane.add(loadProfileButton, 15, 2);
 		bottomGridPane.add(saveProfileButton, 15, 3);
 
 		GridPane.setColumnSpan(newProfileButton, GridPane.REMAINING);
+		GridPane.setColumnSpan(deleteProfileButton, GridPane.REMAINING);
 		//
 		rightSideContents.getChildren().add(bottomGridPane);
 
@@ -300,8 +310,11 @@ public class AutoPresserGUI extends Application {
 
 		// bottom right
 		profiles.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-			this.currentProfile = profileList.get(newValue.intValue());
-			updateProfile();
+			if (newValue.intValue() != -1) {
+				this.currentProfile = profileList.get(newValue.intValue());
+				updateProfile();
+			}
+
 		});
 
 		newProfileButton.setOnAction((e) -> {
@@ -336,6 +349,28 @@ public class AutoPresserGUI extends Application {
 					profileName.setText("");
 				}
 			}
+		});
+
+		deleteProfileButton.setOnAction((e) -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION,
+					"Are you sure you want to delete this profile? (Will delete the save)");
+			alert.setHeaderText("Delete Profile (permanent)");
+
+			alert.getDialogPane().lookupButton(ButtonType.OK).addEventFilter(ActionEvent.ACTION, event -> {
+				if (profileList.size() > 0) {
+
+					try {
+						Files.deleteIfExists(Paths.get(
+								ProfileManager.createFolder().getPath() + "/" + currentProfile.getName() + ".atk"));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+					profileList.remove(currentProfile);
+					profiles.getSelectionModel().selectNext();
+				}
+			});
+			alert.show();
 		});
 
 		saveProfileButton.setOnAction((e) -> {

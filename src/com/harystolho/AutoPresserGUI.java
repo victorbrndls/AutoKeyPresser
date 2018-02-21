@@ -358,14 +358,12 @@ public class AutoPresserGUI extends Application {
 
 			alert.getDialogPane().lookupButton(ButtonType.OK).addEventFilter(ActionEvent.ACTION, event -> {
 				if (profileList.size() > 0) {
-
 					try {
 						Files.deleteIfExists(Paths.get(
 								ProfileManager.createFolder().getPath() + "/" + currentProfile.getName() + ".atk"));
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-
 					profileList.remove(currentProfile);
 					profiles.getSelectionModel().selectNext();
 				}

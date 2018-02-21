@@ -1,8 +1,6 @@
 package com.harystolho.key;
 
 import java.awt.event.KeyEvent;
-import java.security.spec.ECGenParameterSpec;
-import java.util.EmptyStackException;
 import java.util.HashMap;
 
 import com.harystolho.AutoPresserGUI;
@@ -124,29 +122,14 @@ public class AddKeyWindow {
 				delayValue.setStyle("-fx-border-color: red; -fx-border-radius: 4px");
 			} else {
 				delayValue.setStyle("");
+
 				try {
 					com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(
-							getKeyCode(KeyCode.valueOf(pressedKey.getText().toUpperCase())),
+							getLetterKeyCode(KeyCode.valueOf(pressedKey.getText().toUpperCase())),
 							Integer.valueOf(delayValue.getText()));
 					gui.addTableRow(key);
 				} catch (IllegalArgumentException exc) {
-					int buttonNum = 0;
-
-					System.out.println("test");
-
-					switch (pressedKey.getText()) {
-					case "Left Mouse":
-						buttonNum = 1024;
-						break;
-					case "Right Mouse":
-						buttonNum = 2048;
-						break;
-					case "Middle Mouse":
-						buttonNum = 4096;
-						break;
-					default:
-						break;
-					}
+					int buttonNum = getKeyCode(pressedKey.getText());
 
 					com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(buttonNum,
 							Integer.valueOf(delayValue.getText()));
@@ -161,7 +144,7 @@ public class AddKeyWindow {
 	private void keyHandler(Scene scene) {
 		scene.setOnKeyPressed((e) -> {
 			if (listening) {
-				pressedKey.setText(com.harystolho.key.KeyEvent.getKeyName(getKeyCode(e.getCode())));
+				pressedKey.setText(com.harystolho.key.KeyEvent.getKeyName(getLetterKeyCode(e.getCode())));
 			}
 		});
 		scene.setOnKeyReleased((e) -> {
@@ -188,8 +171,10 @@ public class AddKeyWindow {
 		});
 	}
 
-	public static int getKeyCode(KeyCode code) {
+	public static int getLetterKeyCode(KeyCode code) {
 		HashMap<KeyCode, Integer> codes = new HashMap<>();
+
+		System.out.println(code);
 
 		codes.put(KeyCode.A, KeyEvent.VK_A);
 		codes.put(KeyCode.B, KeyEvent.VK_B);
@@ -217,9 +202,68 @@ public class AddKeyWindow {
 		codes.put(KeyCode.X, KeyEvent.VK_X);
 		codes.put(KeyCode.Y, KeyEvent.VK_Y);
 		codes.put(KeyCode.Z, KeyEvent.VK_Z);
+		codes.put(KeyCode.BACK_QUOTE, KeyEvent.VK_BACK_QUOTE);
+		codes.put(KeyCode.DIGIT0, KeyEvent.VK_0);
+		codes.put(KeyCode.DIGIT1, KeyEvent.VK_1);
+		codes.put(KeyCode.DIGIT2, KeyEvent.VK_2);
+		codes.put(KeyCode.DIGIT3, KeyEvent.VK_3);
+		codes.put(KeyCode.DIGIT4, KeyEvent.VK_4);
+		codes.put(KeyCode.DIGIT5, KeyEvent.VK_5);
+		codes.put(KeyCode.DIGIT6, KeyEvent.VK_6);
+		codes.put(KeyCode.DIGIT7, KeyEvent.VK_7);
+		codes.put(KeyCode.DIGIT8, KeyEvent.VK_8);
+		codes.put(KeyCode.DIGIT9, KeyEvent.VK_9);
+		codes.put(KeyCode.MINUS, KeyEvent.VK_MINUS);
+		codes.put(KeyCode.EQUALS, KeyEvent.VK_EQUALS);
+		codes.put(KeyCode.BACK_SPACE, KeyEvent.VK_BACK_SPACE);
+
+		codes.put(KeyCode.ESCAPE, KeyEvent.VK_ESCAPE);
+		codes.put(KeyCode.F1, KeyEvent.VK_F1);
+		codes.put(KeyCode.F2, KeyEvent.VK_F2);
+		codes.put(KeyCode.F3, KeyEvent.VK_F3);
+		codes.put(KeyCode.F4, KeyEvent.VK_F4);
+		codes.put(KeyCode.F5, KeyEvent.VK_F5);
+		codes.put(KeyCode.F6, KeyEvent.VK_F6);
+		codes.put(KeyCode.F7, KeyEvent.VK_F7);
+		codes.put(KeyCode.F8, KeyEvent.VK_F8);
+		codes.put(KeyCode.F9, KeyEvent.VK_F9);
+		codes.put(KeyCode.F10, KeyEvent.VK_F10);
+		codes.put(KeyCode.F11, KeyEvent.VK_F11);
+		codes.put(KeyCode.F12, KeyEvent.VK_F12);
+
+		codes.put(KeyCode.TAB, KeyEvent.VK_TAB);
+		codes.put(KeyCode.CAPS, KeyEvent.VK_CAPS_LOCK);
+		codes.put(KeyCode.SHIFT, KeyEvent.VK_SHIFT);
+		codes.put(KeyCode.CONTROL, KeyEvent.VK_CONTROL);
 
 		return codes.get(code);
 
+	}
+
+	public static int getKeyCode(String key) {
+		HashMap<String, Integer> maps = new HashMap<>();
+
+		maps.put("Left Mouse", 1024);
+		maps.put("Right Mouse", 2048);
+		maps.put("Middle Mouse", 4096);
+		maps.put("0", KeyEvent.VK_0);
+		maps.put("1", KeyEvent.VK_1);
+		maps.put("2", KeyEvent.VK_2);
+		maps.put("3", KeyEvent.VK_3);
+		maps.put("4", KeyEvent.VK_4);
+		maps.put("5", KeyEvent.VK_5);
+		maps.put("6", KeyEvent.VK_6);
+		maps.put("7", KeyEvent.VK_7);
+		maps.put("8", KeyEvent.VK_8);
+		maps.put("9", KeyEvent.VK_9);
+		maps.put("Backspace", KeyEvent.VK_BACK_SPACE);
+		maps.put("CapsLock", KeyEvent.VK_CAPS_LOCK);
+		maps.put("Ctrl", KeyEvent.VK_CONTROL);
+
+		maps.put("Esc", KeyEvent.VK_ESCAPE);
+		maps.put("`", KeyEvent.VK_BACK_QUOTE);
+
+		return maps.get(key);
 	}
 
 }

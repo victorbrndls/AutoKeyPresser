@@ -109,7 +109,7 @@ public class RecordKeysWindow {
 	private void keyMouseListeners(Scene scene) {
 		scene.setOnKeyPressed((e) -> {
 			if (recording) {
-				pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getKeyCode(e.getCode())) + " DOWN");
+				pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
 			}
 		});
 

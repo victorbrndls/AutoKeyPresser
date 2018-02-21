@@ -90,6 +90,42 @@ public class KeyEvent {
 		keyNames.put(java.awt.event.KeyEvent.VK_X, "x");
 		keyNames.put(java.awt.event.KeyEvent.VK_Y, "y");
 		keyNames.put(java.awt.event.KeyEvent.VK_Z, "z");
+
+		keyNames.put(java.awt.event.KeyEvent.VK_0, "0");
+		keyNames.put(java.awt.event.KeyEvent.VK_1, "1");
+		keyNames.put(java.awt.event.KeyEvent.VK_2, "2");
+		keyNames.put(java.awt.event.KeyEvent.VK_3, "3");
+		keyNames.put(java.awt.event.KeyEvent.VK_4, "4");
+		keyNames.put(java.awt.event.KeyEvent.VK_5, "5");
+		keyNames.put(java.awt.event.KeyEvent.VK_6, "6");
+		keyNames.put(java.awt.event.KeyEvent.VK_7, "7");
+		keyNames.put(java.awt.event.KeyEvent.VK_8, "8");
+		keyNames.put(java.awt.event.KeyEvent.VK_9, "9");
+		keyNames.put(java.awt.event.KeyEvent.VK_MINUS, "Minus");
+		keyNames.put(java.awt.event.KeyEvent.VK_EQUALS, "Equals");
+		keyNames.put(java.awt.event.KeyEvent.VK_BACK_SPACE, "Backspace");
+
+		keyNames.put(java.awt.event.KeyEvent.VK_ESCAPE, "Esc");
+		keyNames.put(java.awt.event.KeyEvent.VK_F1, "F1");
+		keyNames.put(java.awt.event.KeyEvent.VK_F2, "F2");
+		keyNames.put(java.awt.event.KeyEvent.VK_F3, "F3");
+		keyNames.put(java.awt.event.KeyEvent.VK_F4, "F4");
+		keyNames.put(java.awt.event.KeyEvent.VK_F5, "F5");
+		keyNames.put(java.awt.event.KeyEvent.VK_F6, "F6");
+		keyNames.put(java.awt.event.KeyEvent.VK_F7, "F7");
+		keyNames.put(java.awt.event.KeyEvent.VK_F8, "F8");
+		keyNames.put(java.awt.event.KeyEvent.VK_F9, "F9");
+		keyNames.put(java.awt.event.KeyEvent.VK_F10, "F10");
+		keyNames.put(java.awt.event.KeyEvent.VK_F11, "F11");
+		keyNames.put(java.awt.event.KeyEvent.VK_F12, "F12");
+
+		keyNames.put(java.awt.event.KeyEvent.VK_BACK_QUOTE, "`");
+
+		keyNames.put(java.awt.event.KeyEvent.VK_TAB, "Tab");
+		keyNames.put(java.awt.event.KeyEvent.VK_CAPS_LOCK, "CapsLock");
+		keyNames.put(java.awt.event.KeyEvent.VK_SHIFT, "Shift");
+		keyNames.put(java.awt.event.KeyEvent.VK_CONTROL, "Ctrl");
+
 		keyNames.put(1024, "Left Mouse Click");
 		keyNames.put(2048, "Right Mouse Click");
 		keyNames.put(4096, "Middle Mouse Click");

@@ -288,7 +288,7 @@ public class AutoPresserGUI extends Application {
 		});
 
 		recordKeySequence.setOnAction((e) -> {
-			RecordKeysWindow window = new RecordKeysWindow();
+			RecordKeysWindow window = new RecordKeysWindow(this);
 			window.display();
 		});
 
@@ -366,6 +366,7 @@ public class AutoPresserGUI extends Application {
 					}
 					profileList.remove(currentProfile);
 					profiles.getSelectionModel().selectNext();
+					updateProfile();
 				}
 			});
 			alert.show();
@@ -412,6 +413,10 @@ public class AutoPresserGUI extends Application {
 			return 0;
 		}
 		return 1;
+	}
+
+	public KeyProfile getCurrentProfile() {
+		return this.currentProfile;
 	}
 
 }

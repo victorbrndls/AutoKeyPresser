@@ -25,7 +25,7 @@ public class KeyEvent {
 	}
 
 	public StringProperty getKeyDuration() {
-		// consider removing
+		// TODO consider removing
 		StringProperty dur = new SimpleStringProperty(String.valueOf(duration));
 		return dur;
 	}

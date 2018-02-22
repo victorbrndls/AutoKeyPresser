@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.harystolho.AutoPresserGUI;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -23,9 +27,18 @@ public class RecordKeysWindow {
 	private static final int WIDTH = 500;
 	private static final int HEIGHT = 500;
 
+	private AutoPresserGUI gui;
+
+	private Stage window;
+
 	private HashMap<KeyCode, Long> pressedKeys;
+	private HashMap<Integer, Long> pressedMouse;
+
 	private HashMap<KeyCode, Boolean> lockedKeys;
-	private ObservableList<String> pressedkeysList;
+
+	private ObservableList<String> pressedKeysList;
+
+	private List<KeyEvent> keyEventList = new ArrayList<>();
 
 	private boolean recording;
 
@@ -35,19 +48,20 @@ public class RecordKeysWindow {
 	private Button recordButton;
 	private Button saveButton;
 
-	public RecordKeysWindow() {
-
+	public RecordKeysWindow(AutoPresserGUI gui) {
+		this.gui = gui;
 	}
 
 	public void display() {
-		Stage window = new Stage();
+		window = new Stage();
 		window.setTitle("Record Key Window");
 		window.setWidth(WIDTH);
 		window.setHeight(HEIGHT);
 
 		pressedKeys = new HashMap<>();
+		pressedMouse = new HashMap<>();
 		lockedKeys = new HashMap<>();
-		pressedkeysList = FXCollections.observableArrayList();
+		pressedKeysList = FXCollections.observableArrayList();
 		recording = false;
 
 		//
@@ -63,7 +77,7 @@ public class RecordKeysWindow {
 		defaultDelay.setTranslateY(5);
 		defaultDelay.setTranslateX(15);
 		keysList = new ListView<>();
-		keysList.setItems(pressedkeysList);
+		keysList.setItems(pressedKeysList);
 		keysList.setMaxWidth(WIDTH * 0.5);
 		keysList.setMaxHeight(HEIGHT * 0.7);
 		keysList.setTranslateY(20);
@@ -108,6 +122,18 @@ public class RecordKeysWindow {
 			}
 		});
 
+		saveButton.setOnAction((e) -> {
+			if (gui.getCurrentProfile() == null) {
+				Alert alert = new Alert(AlertType.ERROR, "Please select a profile", ButtonType.OK);
+				alert.show();
+			} else {
+				for (KeyEvent key : keyEventList) {
+					gui.getCurrentProfile().addKey(key);
+					window.close();
+				}
+			}
+		});
+
 	}
 
 	private void keyMouseListeners(Scene scene) {
@@ -116,11 +142,13 @@ public class RecordKeysWindow {
 				if (lockedKeys.containsKey(e.getCode())) {
 					if (!lockedKeys.get(e.getCode())) {
 						lockedKeys.put(e.getCode(), true);
-						pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
+						pressedKeys.put(e.getCode(), System.currentTimeMillis());
+						pressedKeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
 					}
 				} else {
 					lockedKeys.put(e.getCode(), true);
-					pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
+					pressedKeys.put(e.getCode(), System.currentTimeMillis());
+					pressedKeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
 				}
 
 			}
@@ -130,7 +158,18 @@ public class RecordKeysWindow {
 			if (recording) {
 				if (lockedKeys.containsKey(e.getCode())) {
 					lockedKeys.put(e.getCode(), false);
-					pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " UP");
+					int elapsedTime = (int) (System.currentTimeMillis() - pressedKeys.get(e.getCode()));
+					try {
+						KeyEvent key = new KeyEvent(AddKeyWindow.getLetterKeyCode(e.getCode()), elapsedTime);
+						keyEventList.add(key);
+					} catch (IllegalArgumentException exc) {
+						System.out.println("FW");
+						KeyEvent key = new KeyEvent(AddKeyWindow.getKeyCode(
+								KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode()))), elapsedTime);
+						keyEventList.add(key);
+					}
+
+					pressedKeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " UP");
 				}
 			}
 		});
@@ -139,13 +178,16 @@ public class RecordKeysWindow {
 			if (recording) {
 				switch (e.getButton()) {
 				case PRIMARY:
-					pressedkeysList.add(KeyEvent.getKeyName(1024) + " DOWN");
+					pressedKeysList.add(KeyEvent.getKeyName(1024) + " DOWN");
+					pressedMouse.put(1024, System.currentTimeMillis());
 					break;
 				case SECONDARY:
-					pressedkeysList.add(KeyEvent.getKeyName(2048) + " DOWN");
+					pressedKeysList.add(KeyEvent.getKeyName(2048) + " DOWN");
+					pressedMouse.put(2048, System.currentTimeMillis());
 					break;
 				case MIDDLE:
-					pressedkeysList.add(KeyEvent.getKeyName(4096) + " DOWN");
+					pressedKeysList.add(KeyEvent.getKeyName(4096) + " DOWN");
+					pressedMouse.put(4096, System.currentTimeMillis());
 					break;
 				default:
 					break;
@@ -156,15 +198,26 @@ public class RecordKeysWindow {
 
 		scene.setOnMouseReleased((e) -> {
 			if (recording) {
+				int elapsedTime;
+				KeyEvent key;
 				switch (e.getButton()) {
 				case PRIMARY:
-					pressedkeysList.add(KeyEvent.getKeyName(1024) + " UP");
+					pressedKeysList.add(KeyEvent.getKeyName(1024) + " UP");
+					elapsedTime = (int) (System.currentTimeMillis() - pressedMouse.get(1024));
+					key = new KeyEvent(1024, elapsedTime);
+					keyEventList.add(key);
 					break;
 				case SECONDARY:
-					pressedkeysList.add(KeyEvent.getKeyName(2048) + " UP");
+					pressedKeysList.add(KeyEvent.getKeyName(2048) + " UP");
+					elapsedTime = (int) (System.currentTimeMillis() - pressedMouse.get(1024));
+					key = new KeyEvent(2048, elapsedTime);
+					keyEventList.add(key);
 					break;
 				case MIDDLE:
-					pressedkeysList.add(KeyEvent.getKeyName(4096) + " UP");
+					pressedKeysList.add(KeyEvent.getKeyName(4096) + " UP");
+					elapsedTime = (int) (System.currentTimeMillis() - pressedMouse.get(1024));
+					key = new KeyEvent(4096, elapsedTime);
+					keyEventList.add(key);
 					break;
 				default:
 					break;

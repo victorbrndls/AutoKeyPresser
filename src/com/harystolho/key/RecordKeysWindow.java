@@ -1,6 +1,8 @@
 package com.harystolho.key;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +24,7 @@ public class RecordKeysWindow {
 	private static final int HEIGHT = 500;
 
 	private HashMap<KeyCode, Long> pressedKeys;
+	private HashMap<KeyCode, Boolean> lockedKeys;
 	private ObservableList<String> pressedkeysList;
 
 	private boolean recording;
@@ -43,6 +46,7 @@ public class RecordKeysWindow {
 		window.setHeight(HEIGHT);
 
 		pressedKeys = new HashMap<>();
+		lockedKeys = new HashMap<>();
 		pressedkeysList = FXCollections.observableArrayList();
 		recording = false;
 
@@ -109,12 +113,26 @@ public class RecordKeysWindow {
 	private void keyMouseListeners(Scene scene) {
 		scene.setOnKeyPressed((e) -> {
 			if (recording) {
-				pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
+				if (lockedKeys.containsKey(e.getCode())) {
+					if (!lockedKeys.get(e.getCode())) {
+						lockedKeys.put(e.getCode(), true);
+						pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
+					}
+				} else {
+					lockedKeys.put(e.getCode(), true);
+					pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
+				}
+
 			}
 		});
 
 		scene.setOnKeyReleased((e) -> {
-
+			if (recording) {
+				if (lockedKeys.containsKey(e.getCode())) {
+					lockedKeys.put(e.getCode(), false);
+					pressedkeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " UP");
+				}
+			}
 		});
 
 		scene.setOnMousePressed((e) -> {
@@ -137,7 +155,22 @@ public class RecordKeysWindow {
 		});
 
 		scene.setOnMouseReleased((e) -> {
+			if (recording) {
+				switch (e.getButton()) {
+				case PRIMARY:
+					pressedkeysList.add(KeyEvent.getKeyName(1024) + " UP");
+					break;
+				case SECONDARY:
+					pressedkeysList.add(KeyEvent.getKeyName(2048) + " UP");
+					break;
+				case MIDDLE:
+					pressedkeysList.add(KeyEvent.getKeyName(4096) + " UP");
+					break;
+				default:
+					break;
+				}
 
+			}
 		});
 	}
 

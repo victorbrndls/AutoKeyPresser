@@ -353,7 +353,7 @@ public class AutoPresserGUI extends Application {
 
 		deleteProfileButton.setOnAction((e) -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION,
-					"Are you sure you want to delete this profile? (Will delete the save)");
+					"Are you sure you want to delete this profile? (It Will delete the save)");
 			alert.setHeaderText("Delete Profile (permanent)");
 
 			alert.getDialogPane().lookupButton(ButtonType.OK).addEventFilter(ActionEvent.ACTION, event -> {

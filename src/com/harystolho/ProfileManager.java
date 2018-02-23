@@ -29,7 +29,8 @@ public class ProfileManager {
 				JSONArray keys = new JSONArray(json.get("keys").toString());
 				keys.forEach((item) -> {
 					JSONObject key = new JSONObject(item.toString());
-					KeyEvent savedKey = new KeyEvent(key.getInt("keyCode"), key.getInt("duration"));
+					KeyEvent savedKey = new KeyEvent(key.getInt("keyCode"), key.getInt("duration"),
+							key.getBoolean("isDown"));
 					profile.addKey(savedKey);
 				});
 
@@ -76,6 +77,7 @@ public class ProfileManager {
 			JSONObject keyJSON = new JSONObject();
 			keyJSON.put("keyCode", key.getKeyCode());
 			keyJSON.put("duration", Integer.valueOf(key.getKeyDuration().get()));
+			keyJSON.put("isDown", key.isKeyDown());
 
 			keys.put(keyJSON);
 		}

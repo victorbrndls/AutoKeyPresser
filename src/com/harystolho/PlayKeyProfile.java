@@ -64,21 +64,28 @@ public class PlayKeyProfile {
 	private static void playKey(KeyProfile profile) {
 		for (KeyEvent key : profile.getItems()) {
 			if (key.getKeyCode() > 1000) {
-				robot.mousePress(key.getKeyCode());
 				try {
 					Thread.sleep(key.getKeyDurationInt());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				robot.mouseRelease(key.getKeyCode());
+				if (key.isKeyDown()) {
+					robot.mousePress(key.getKeyCode());
+				} else {
+					robot.mouseRelease(key.getKeyCode());
+				}
+
 			} else {
-				robot.keyPress(key.getKeyCode());
 				try {
 					Thread.sleep(key.getKeyDurationInt());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				robot.keyRelease(key.getKeyCode());
+				if (key.isKeyDown()) {
+					robot.keyPress(key.getKeyCode());
+				} else {
+					robot.keyRelease(key.getKeyCode());
+				}
 			}
 		}
 	}

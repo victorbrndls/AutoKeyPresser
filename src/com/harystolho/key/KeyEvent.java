@@ -13,11 +13,11 @@ public class KeyEvent {
 
 	private StringProperty keyName;
 
-	public KeyEvent(int keyCode, int duration) {
+	public KeyEvent(int keyCode, int duration, boolean isDown) {
 		this.keyCode = keyCode;
 		this.duration = duration;
-		isDown = true;
-		this.keyName = new SimpleStringProperty(getKeyName(keyCode));
+		this.isDown = isDown;
+		this.keyName = new SimpleStringProperty(getKeyName(keyCode) + (isDown ? " DOWN" : " UP"));
 	}
 
 	public StringProperty getKeyName() {
@@ -42,17 +42,13 @@ public class KeyEvent {
 		return this.isDown;
 	}
 
-	public void setIsDown(boolean isDown) {
-		this.isDown = isDown;
-	}
-
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
 	@Override
 	public KeyEvent clone() {
-		KeyEvent key = new KeyEvent(this.keyCode, this.duration);
+		KeyEvent key = new KeyEvent(this.keyCode, this.duration, this.isDown);
 		return key;
 	}
 

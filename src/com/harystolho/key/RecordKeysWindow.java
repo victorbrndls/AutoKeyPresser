@@ -31,9 +31,6 @@ public class RecordKeysWindow {
 
 	private Stage window;
 
-	private HashMap<KeyCode, Long> pressedKeys;
-	private HashMap<Integer, Long> pressedMouse;
-
 	private HashMap<KeyCode, Boolean> lockedKeys;
 
 	private ObservableList<String> pressedKeysList;
@@ -41,6 +38,8 @@ public class RecordKeysWindow {
 	private List<KeyEvent> keyEventList = new ArrayList<>();
 
 	private boolean recording;
+
+	private long lastKeyTime;
 
 	private CheckBox recordDelay;
 	private TextField defaultDelay;
@@ -58,11 +57,11 @@ public class RecordKeysWindow {
 		window.setWidth(WIDTH);
 		window.setHeight(HEIGHT);
 
-		pressedKeys = new HashMap<>();
-		pressedMouse = new HashMap<>();
 		lockedKeys = new HashMap<>();
 		pressedKeysList = FXCollections.observableArrayList();
 		recording = false;
+
+		lastKeyTime = 0;
 
 		//
 		VBox contents = new VBox();
@@ -142,12 +141,33 @@ public class RecordKeysWindow {
 				if (lockedKeys.containsKey(e.getCode())) {
 					if (!lockedKeys.get(e.getCode())) {
 						lockedKeys.put(e.getCode(), true);
-						pressedKeys.put(e.getCode(), System.currentTimeMillis());
+						if (lastKeyTime == 0) {
+							KeyEvent key = new KeyEvent(AddKeyWindow.getLetterKeyCode(e.getCode()), 0, true);
+							setLastTimeKey();
+							keyEventList.add(key);
+						} else {
+							KeyEvent key = new KeyEvent(AddKeyWindow.getLetterKeyCode(e.getCode()),
+									(int) (System.currentTimeMillis() - lastKeyTime), true);
+							setLastTimeKey();
+							keyEventList.add(key);
+						}
+
 						pressedKeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
 					}
 				} else {
 					lockedKeys.put(e.getCode(), true);
-					pressedKeys.put(e.getCode(), System.currentTimeMillis());
+
+					if (lastKeyTime == 0) {
+						KeyEvent key = new KeyEvent(AddKeyWindow.getLetterKeyCode(e.getCode()), 0, true);
+						setLastTimeKey();
+						keyEventList.add(key);
+					} else {
+						KeyEvent key = new KeyEvent(AddKeyWindow.getLetterKeyCode(e.getCode()),
+								(int) (System.currentTimeMillis() - lastKeyTime), true);
+						setLastTimeKey();
+						keyEventList.add(key);
+					}
+
 					pressedKeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " DOWN");
 				}
 
@@ -158,15 +178,20 @@ public class RecordKeysWindow {
 			if (recording) {
 				if (lockedKeys.containsKey(e.getCode())) {
 					lockedKeys.put(e.getCode(), false);
-					int elapsedTime = (int) (System.currentTimeMillis() - pressedKeys.get(e.getCode()));
+
 					try {
-						KeyEvent key = new KeyEvent(AddKeyWindow.getLetterKeyCode(e.getCode()), elapsedTime);
+						KeyEvent key = new KeyEvent(AddKeyWindow.getLetterKeyCode(e.getCode()),
+								(int) (System.currentTimeMillis() - lastKeyTime), false);
+						setLastTimeKey();
 						keyEventList.add(key);
 					} catch (IllegalArgumentException exc) {
-						System.out.println("FW");
-						KeyEvent key = new KeyEvent(AddKeyWindow.getKeyCode(
-								KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode()))), elapsedTime);
+						KeyEvent key = new KeyEvent(
+								AddKeyWindow
+										.getKeyCode(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode()))),
+								(int) (System.currentTimeMillis() - lastKeyTime), false);
+						setLastTimeKey();
 						keyEventList.add(key);
+
 					}
 
 					pressedKeysList.add(KeyEvent.getKeyName(AddKeyWindow.getLetterKeyCode(e.getCode())) + " UP");
@@ -176,18 +201,25 @@ public class RecordKeysWindow {
 
 		scene.setOnMousePressed((e) -> {
 			if (recording) {
+				KeyEvent key;
 				switch (e.getButton()) {
 				case PRIMARY:
 					pressedKeysList.add(KeyEvent.getKeyName(1024) + " DOWN");
-					pressedMouse.put(1024, System.currentTimeMillis());
+					key = new KeyEvent(1024, (int) (System.currentTimeMillis() - lastKeyTime), true);
+					setLastTimeKey();
+					keyEventList.add(key);
 					break;
 				case SECONDARY:
 					pressedKeysList.add(KeyEvent.getKeyName(2048) + " DOWN");
-					pressedMouse.put(2048, System.currentTimeMillis());
+					key = new KeyEvent(2048, (int) (System.currentTimeMillis() - lastKeyTime), true);
+					setLastTimeKey();
+					keyEventList.add(key);
 					break;
 				case MIDDLE:
 					pressedKeysList.add(KeyEvent.getKeyName(4096) + " DOWN");
-					pressedMouse.put(4096, System.currentTimeMillis());
+					key = new KeyEvent(4096, (int) (System.currentTimeMillis() - lastKeyTime), true);
+					setLastTimeKey();
+					keyEventList.add(key);
 					break;
 				default:
 					break;
@@ -198,25 +230,24 @@ public class RecordKeysWindow {
 
 		scene.setOnMouseReleased((e) -> {
 			if (recording) {
-				int elapsedTime;
 				KeyEvent key;
 				switch (e.getButton()) {
 				case PRIMARY:
 					pressedKeysList.add(KeyEvent.getKeyName(1024) + " UP");
-					elapsedTime = (int) (System.currentTimeMillis() - pressedMouse.get(1024));
-					key = new KeyEvent(1024, elapsedTime);
+					key = new KeyEvent(1024, (int) (System.currentTimeMillis() - lastKeyTime), true);
+					setLastTimeKey();
 					keyEventList.add(key);
 					break;
 				case SECONDARY:
 					pressedKeysList.add(KeyEvent.getKeyName(2048) + " UP");
-					elapsedTime = (int) (System.currentTimeMillis() - pressedMouse.get(1024));
-					key = new KeyEvent(2048, elapsedTime);
+					key = new KeyEvent(2048, (int) (System.currentTimeMillis() - lastKeyTime), true);
+					setLastTimeKey();
 					keyEventList.add(key);
 					break;
 				case MIDDLE:
 					pressedKeysList.add(KeyEvent.getKeyName(4096) + " UP");
-					elapsedTime = (int) (System.currentTimeMillis() - pressedMouse.get(1024));
-					key = new KeyEvent(4096, elapsedTime);
+					key = new KeyEvent(4096, (int) (System.currentTimeMillis() - lastKeyTime), true);
+					setLastTimeKey();
 					keyEventList.add(key);
 					break;
 				default:
@@ -225,6 +256,10 @@ public class RecordKeysWindow {
 
 			}
 		});
+	}
+
+	public void setLastTimeKey() {
+		lastKeyTime = System.currentTimeMillis();
 	}
 
 }

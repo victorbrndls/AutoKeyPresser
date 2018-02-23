@@ -124,16 +124,24 @@ public class AddKeyWindow {
 				delayValue.setStyle("");
 
 				try {
-					com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(
+					com.harystolho.key.KeyEvent keyDown = new com.harystolho.key.KeyEvent(
+							getLetterKeyCode(KeyCode.valueOf(pressedKey.getText().toUpperCase())), 0, true);
+
+					com.harystolho.key.KeyEvent keyUp = new com.harystolho.key.KeyEvent(
 							getLetterKeyCode(KeyCode.valueOf(pressedKey.getText().toUpperCase())),
-							Integer.valueOf(delayValue.getText()));
-					gui.addTableRow(key);
+							Integer.valueOf(delayValue.getText()), false);
+
+					gui.addTableRow(keyDown);
+					gui.addTableRow(keyUp);
 				} catch (IllegalArgumentException exc) {
 					int buttonNum = getKeyCode(pressedKey.getText());
 
-					com.harystolho.key.KeyEvent key = new com.harystolho.key.KeyEvent(buttonNum,
-							Integer.valueOf(delayValue.getText()));
-					gui.addTableRow(key);
+					com.harystolho.key.KeyEvent keyDown = new com.harystolho.key.KeyEvent(buttonNum, 0, true);
+					com.harystolho.key.KeyEvent keyUp = new com.harystolho.key.KeyEvent(buttonNum,
+							Integer.valueOf(delayValue.getText()), false);
+
+					gui.addTableRow(keyDown);
+					gui.addTableRow(keyUp);
 				}
 
 				window.close();

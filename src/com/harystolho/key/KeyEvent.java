@@ -121,6 +121,17 @@ public class KeyEvent {
 		keyNames.put(java.awt.event.KeyEvent.VK_CAPS_LOCK, "CapsLock");
 		keyNames.put(java.awt.event.KeyEvent.VK_SHIFT, "Shift");
 		keyNames.put(java.awt.event.KeyEvent.VK_CONTROL, "Ctrl");
+		keyNames.put(java.awt.event.KeyEvent.VK_ALT, "Alt");
+		keyNames.put(java.awt.event.KeyEvent.VK_WINDOWS, "Windows");
+		keyNames.put(java.awt.event.KeyEvent.VK_OPEN_BRACKET, "{");
+		keyNames.put(java.awt.event.KeyEvent.VK_CLOSE_BRACKET, "}");
+		keyNames.put(java.awt.event.KeyEvent.VK_SEMICOLON, ";");
+		keyNames.put(java.awt.event.KeyEvent.VK_QUOTE, "'");
+		keyNames.put(java.awt.event.KeyEvent.VK_BACK_SLASH, "\\");
+		keyNames.put(java.awt.event.KeyEvent.VK_ENTER, "Enter");
+		keyNames.put(java.awt.event.KeyEvent.VK_COMMA, ",");
+		keyNames.put(java.awt.event.KeyEvent.VK_PERIOD, ".");
+		keyNames.put(java.awt.event.KeyEvent.VK_SLASH, "/");
 
 		keyNames.put(1024, "Left Mouse Click");
 		keyNames.put(2048, "Right Mouse Click");

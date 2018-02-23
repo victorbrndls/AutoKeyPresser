@@ -22,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -114,7 +115,9 @@ public class AutoPresserGUI extends Application {
 		keyTable.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> setKeyInfoOnGrid(newValue));
 
-		timeColumn = new TableColumn<>("Time (ms)");
+		keyTable.setPlaceholder(new Label(""));
+
+		timeColumn = new TableColumn<>();
 		timeColumn.setId("timeColumn");
 		keyColumn = new TableColumn<>("Key");
 
@@ -123,6 +126,11 @@ public class AutoPresserGUI extends Application {
 
 		timeColumn.setSortable(false);
 		keyColumn.setSortable(false);
+
+		// Delay column header tooltip
+		Label timeColumnLabel = new Label("Delay (ms)");
+		timeColumnLabel.setTooltip(new Tooltip("Delay before pressing the key."));
+		timeColumn.setGraphic(timeColumnLabel);
 
 		timeColumn.setCellValueFactory((cellData) -> cellData.getValue().getKeyDuration());
 		keyColumn.setCellValueFactory((cellData) -> cellData.getValue().getKeyName());

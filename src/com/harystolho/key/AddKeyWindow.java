@@ -243,6 +243,17 @@ public class AddKeyWindow {
 		codes.put(KeyCode.CAPS, KeyEvent.VK_CAPS_LOCK);
 		codes.put(KeyCode.SHIFT, KeyEvent.VK_SHIFT);
 		codes.put(KeyCode.CONTROL, KeyEvent.VK_CONTROL);
+		codes.put(KeyCode.ALT, KeyEvent.VK_ALT);
+		codes.put(KeyCode.WINDOWS, KeyEvent.VK_WINDOWS);
+		codes.put(KeyCode.OPEN_BRACKET, KeyEvent.VK_OPEN_BRACKET);
+		codes.put(KeyCode.CLOSE_BRACKET, KeyEvent.VK_CLOSE_BRACKET);
+		codes.put(KeyCode.SEMICOLON, KeyEvent.VK_SEMICOLON);
+		codes.put(KeyCode.QUOTE, KeyEvent.VK_QUOTE);
+		codes.put(KeyCode.BACK_SLASH, KeyEvent.VK_BACK_SLASH);
+		codes.put(KeyCode.ENTER, KeyEvent.VK_ENTER);
+		codes.put(KeyCode.COMMA, KeyEvent.VK_COMMA);
+		codes.put(KeyCode.PERIOD, KeyEvent.VK_PERIOD);
+		codes.put(KeyCode.SLASH, KeyEvent.VK_SLASH);
 
 		return codes.get(code);
 
@@ -267,6 +278,7 @@ public class AddKeyWindow {
 		maps.put("Backspace", KeyEvent.VK_BACK_SPACE);
 		maps.put("CapsLock", KeyEvent.VK_CAPS_LOCK);
 		maps.put("Ctrl", KeyEvent.VK_CONTROL);
+		maps.put("Alt", KeyEvent.VK_ALT);
 
 		maps.put("Esc", KeyEvent.VK_ESCAPE);
 		maps.put("`", KeyEvent.VK_BACK_QUOTE);

@@ -200,6 +200,9 @@ public class RecordKeysWindow {
 		});
 
 		scene.setOnMousePressed((e) -> {
+			if (lastKeyTime == 0) {
+				setLastTimeKey();
+			}
 			if (recording) {
 				KeyEvent key;
 				switch (e.getButton()) {

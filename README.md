@@ -11,8 +11,6 @@ A lightweight Java Key/Mouse presser.
 
 ## Usage
 
-Download the lastest version here.
-
 1. Create a new Profile ("New Profile" Button)
 
 2. Click on the Button "New Key/Mouse" to record a key/mouse event or click on the "Record Many Keys" to record as many as  you want
@@ -23,6 +21,9 @@ Download the lastest version here.
 
 5. Choose how you want the keys to be pressed (Once, X Times, Until the button is pressed again), then click the "Play" Button
 
+## Instalation
+
+Download the lastest version here.
 
 ### Prerequisites
 

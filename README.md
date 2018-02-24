@@ -1,5 +1,7 @@
 # AutoPresser
 
+![AutoPresser](https://github.com/Harystolho/AutoPresser/blob/master/logo.jpg)
+
 A lightweight Java Key/Mouse presser. 
 
 ## Features 

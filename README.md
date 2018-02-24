@@ -1,14 +1,29 @@
 # AutoPresser
 
-One Paragraph of project description goes here
+A lightweight Java Key/Mouse presser. 
 
-## Getting Started
+## Features 
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+ * Suports Key and Mouse events
+ * Multiple profiles
+ * Load and Save profiles
+ * Plays keys once, X time or until the 'Play' button is pressed again.
 
-### Prerequisites
+## Usage
 
-Java 8
+1. Create a new Profile ("New Profile" Button)
+
+2. Click on the Button "New Key/Mouse" to record a key/mouse event or click on the "Record Many Keys" to record as many as  you want
+
+3. Click the "Save" Button on either one.
+
+4. Click the "Save Profile" Button if you will.
+
+5. Choose how you want the keys to be pressed (Once, X Times, Until the button is pressed again), then click the "Play" Button
+
+## Instalation
+
+Download the lastest version here.
 
 ## Contributing
 

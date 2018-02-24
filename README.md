@@ -1,14 +1,18 @@
 # AutoPresser
 
-One Paragraph of project description goes here
+A lightweight Java Key/Mouse presser. 
+
+## Features 
+
+
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Download the lastest version here.
 
 ### Prerequisites
 
-Java 8
+Java
 
 ## Contributing
 

@@ -25,10 +25,6 @@ A lightweight Java Key/Mouse presser.
 
 Download the lastest version here.
 
-### Prerequisites
-
-Java
-
 ## Contributing
 
 Feel free to contribute

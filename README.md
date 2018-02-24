@@ -9,7 +9,7 @@ A lightweight Java Key/Mouse presser.
  * Load and Save profiles
  * Plays keys once, X time or until the 'Play' button is pressed again.
 
-## Getting Started
+## Usage
 
 Download the lastest version here.
 

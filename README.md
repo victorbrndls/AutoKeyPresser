@@ -4,6 +4,8 @@
 
 A lightweight Java Key/Mouse presser. 
 
+[![Download Auto Key Presser](https://img.shields.io/sourceforge/dt/autopresser.svg)](https://sourceforge.net/projects/autopresser/files/latest/download)
+
 ## Features 
 
  * Suports Key and Mouse events
